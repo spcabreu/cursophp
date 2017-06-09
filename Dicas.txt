@@ -1,0 +1,69 @@
+- Para criar um repositório Git nesse diretório, basta executarmos:
+$ git init
+
+- Saída:
+$ Initialized empty Git repository in /home/fulano/moveis/.git/
+
+- Para verificarmos o estado atual do nosso repositório:
+$ git statusgi
+
+- Para informar ao Git que o arquivo index.html deve ser rastreado:
+$ git add index.html
+
+- Para rastrear vários arquivos:
+$ git add .
+
+- Para gravar esses arquivos e alterações definitivamente no repositório:
+$ git commit -m "Commit inicial"
+
+- Para rastrear e gravar as alterações no repositório:
+$ git commit -a -m "Inserindo titulo e diminuindo tamanho da pagina"
+
+- Para mostrar apenas os dois últimos commits: (-n)
+$ git log -n 2
+
+- Para renomear arquivos:
+$ git mv estilos.css principal.css
+- Resumo bem conciso dos commits utilizar a opção --oneline:
+$ git log --oneline
+
+- Resumo dos arquivos alterados, com o número de linhas add e removidas:
+$ git log --stat
+
+- Combinar as várias opções do comando git log:
+$ git log -n 2 --oneline --stat
+
+- Mostrar as diferenças entre os arquivos na área de stage e a
+  última versão que foi comitada:
+$ git diff --staged
+
+- Para recuperar arquivos removidos acidentalmente:
+$ git checkout -- index.html
+
+- Desfazer as alterações no repositório, podemos utilizar o comando: 
+  (onde 61111116 é o índice de um determinado commit)
+$ git revert --no-edit 6111116
+
+- Para criar uma branch chamada design:
+$ git branch design
+
+- Para trocar para a branch recentemente criada:
+$ git checkout design
+
+- Para criar e mudar para a nova branch loja:
+$ git checkout -b loja
+
+- Para deletar uma branch:
+$ git branch -d loja
+
+- Para remover uma branch loja se tivermos feito algum commit usar a opção -D:
+$ git branch -D loja
+
+- Para mesclar duas branches design e master, estando na master:
+$ git merge design -m "Mesclando com a branch design"
+
+- Para acessar um repositório remoto temos que clonar o repositório.
+$ git clone https://github.com/spcabreu/cursophp.git
+
+- Para enviar os commits do projeto para o GitHub:
+$ git push origin master
