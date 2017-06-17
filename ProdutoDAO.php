@@ -1,5 +1,7 @@
 <?php
 require_once 'Produto.php';
+require_once 'LivroFisico.php';
+require_once 'Ebook.php';
 require_once 'Categoria.php';
 
 class ProdutoDAO {
@@ -12,8 +14,17 @@ class ProdutoDAO {
         $sql = "SELECT * FROM produtos WHERE  id = {$id}";
         $resultado = mysqli_query($this -> conexao,$sql);
         $array = mysqli_fetch_assoc($resultado);
-        $produto = new Produto();
-        $produto = new Produto();
+        if($array['isbn'] == "") {
+                    $produto = new Produto();
+                } else if($array["waterMark"] != "") {
+                    $produto = new Ebook();
+                    $produto -> setIsbn($array['isbn']);
+                    $produto -> setWaterMark($array['waterMark']);
+                } else {
+                    $produto = new LivroFisico();
+                    $produto -> setIsbn($array['isbn']);
+                    $produto -> setTaxaImpressao($array['taxaImpressao']);
+                }
         $produto -> setId($array['id']);
         $produto -> setNome($array['nome']);
         $produto -> setPreco($array['preco']);
@@ -26,19 +37,55 @@ class ProdutoDAO {
     }
 
     function insereProduto($produto) {
-        $sql = "INSERT INTO produtos (nome,preco,descricao, categoria_id,usado) VALUES ('{$produto->getNome()}',{$produto->getPreco()},
-               '{$produto->getDescricao()}',{$produto->getCategoria()->getId()},{$produto->getUsado()})";
+        if($produto -> temIsbn()) {
+            $isbn = $produto -> getIsbn();
+        } else {
+            $isbn = "";
+        }
+        if($produto -> temWaterMark()) {
+            $waterMark = $produto -> getWaterMark();
+        } else {
+            $waterMark = "";
+        }
+        if($produto -> temTaxaImpressao()) {
+            $taxaImpressao = $produto -> getTaxaImpressao();
+        } else {
+            $taxaImpressao = "null";
+        }
+        $sql = "INSERT INTO produtos (nome,preco,descricao, categoria_id,usado, isbn, waterMark, taxaImpressao) 
+                VALUES ('{$produto->getNome()}',{$produto->getPreco()},
+               '{$produto->getDescricao()}',{$produto->getCategoria()->getId()},{$produto->getUsado()},'{$isbn}',
+               '{$waterMark}',{$taxaImpressao})";
         $resultado = mysqli_query($this -> conexao, $sql);
         return $resultado;
     }
 
     function alteraProduto($produto) {
+        if($produto -> temIsbn()) {
+            $isbn = $produto -> getIsbn();
+        } else {
+            $isbn = "";
+        }
+        if($produto -> temWaterMark()) {
+            $waterMark = $produto -> getWaterMark();
+        } else {
+            $waterMark = "";
+        }
+        if($produto -> temTaxaImpressao()) {
+            $taxaImpressao = $produto -> getTaxaImpressao();
+        } else {
+            $taxaImpressao = "null";
+        }
         $sql = "UPDATE produtos set nome = '{$produto -> getNome()}',
                                 preco = {$produto -> getPreco()},
                                 descricao = '{$produto -> getDescricao()}',
                                 categoria_id = {$produto -> getCategoria() -> getId()},
-                                usado = {$produto -> getUsado()}
+                                usado = {$produto -> getUsado()},
+                                isbn = '{$isbn}',
+                                waterMark = '{$waterMark}',
+                                taxaImpressao = {$taxaImpressao}
                 WHERE id = {$produto -> getId()}";
+     
         $resultado = mysqli_query($this -> conexao, $sql);
         return $resultado;
     }
@@ -49,8 +96,18 @@ class ProdutoDAO {
                 ON p.categoria_id = c.id";
         $resultado = mysqli_query($this -> conexao, $sql);
         $lista = array();
-        while($array = mysqli_fetch_assoc($resultado)) {
-            $produto = new Produto();
+            while($array = mysqli_fetch_assoc($resultado)) {
+                if($array['isbn'] == "") {
+                    $produto = new Produto();
+                } else if($array["waterMark"] != "") {
+                    $produto = new Ebook();
+                    $produto -> setIsbn($array['isbn']);
+                    $produto -> setWaterMark($array['waterMark']);
+                } else {
+                    $produto = new LivroFisico();
+                    $produto -> setIsbn($array['isbn']);
+                    $produto -> setTaxaImpressao($array['taxaImpressao']);
+                }
             $produto -> setId($array['id']);
             $produto -> setNome($array['nome']);
             $produto -> setPreco($array['preco']);

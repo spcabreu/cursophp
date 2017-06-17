@@ -21,6 +21,9 @@ verificaUsuario();
                     <th>DESCRIÇÃO</th>
                     <th>CATEGORIA</th>
                     <th>USADO</th>
+                    <th>ISBN</th>
+                    <th>WATER MARK</th>
+                    <th>TAXA IMPRESSÃO</th>
                     <th>AÇÕES</th>
                 </tr>
             </thead>
@@ -36,6 +39,27 @@ verificaUsuario();
             <td><?= $prod -> getDescricao() ?></td>
             <td><?= $prod -> getCategoria() -> getNome()?></td>
             <td><?= $prod -> getUsado() ? 'sim' : 'não' ?></td>
+            <td>
+                <?php
+                    if($prod -> temIsbn()) {
+                        echo $prod -> getIsbn();
+                    }
+                ?>
+            </td>
+            <td>
+                <?php
+                    if($prod -> temWaterMark()) {
+                        echo $prod -> getWaterMark();
+                    }
+                ?>
+            </td>
+            <td>
+                <?php
+                    if($prod -> temTaxaImpressao()) {
+                        echo $prod -> getTaxaImpressao();
+                    }
+                ?>
+            </td>
             <td>
                <a class="btn btn-warning" href="produto-formulario.php?id=<?=$prod -> getId()?>">Editar</a>
                 <form action="remove-produto.php" method="post">

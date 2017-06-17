@@ -4,7 +4,7 @@ class Produto
 {
     private $id;
     private $nome;
-    private $preco;
+    protected $preco;
     private $descricao;
     private $categoria;
     private $usado;
@@ -68,7 +68,20 @@ class Produto
 
 	public function setUsado($usado){
 		$this->usado = $usado;
-	}    
+	}
+    
+    public function temIsbn() {
+        return $this -> temWaterMark() ||
+               $this -> temTaxaImpressao();
+    }
+    
+    public function temWaterMark() {
+        return $this instanceof Ebook;
+    }
+    
+    public function temTaxaImpressao() {
+        return $this instanceof LivroFisico;
+    }
 }
 
 ?> 

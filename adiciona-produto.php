@@ -3,6 +3,8 @@ require_once'cabecalho.php';
 require_once'conexao.php';
 require_once'ProdutoDAO.php';
 require_once 'Produto.php';
+require_once 'LivroFisico.php';
+require_once 'Ebook.php';
 require_once 'Categoria.php';
 
 verificaUsuario();
@@ -10,8 +12,20 @@ verificaUsuario();
    
 <?php
     $id = $_POST['id'];
+    $tipo = $_POST['tipoProduto'];
+    if($tipo == "Ebook") {
+        $produto = new Ebook();
+        $produto -> setIsbn($_POST["isbn"]);
+        $produto -> setWaterMark($_POST["waterMark"]);
+        } else if($tipo == "LivroFisico") {
+            $produto = new LivroFisico();
+            $produto -> setIsbn($_POST["isbn"]);
+            $produto -> setTaxaImpressao($_POST["taxaImpressao"]);
+            }
+    else {
+        $produto = new Produto();
+    }
     $dao = new ProdutoDAO($conexao);
-    $produto = new Produto();
     $categoria = new Categoria();
     $produto->setId($id);
     $produto->setNome($_POST['nome']);

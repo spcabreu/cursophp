@@ -9,6 +9,7 @@ require_once 'sessao.php';
         <title>Minha Loja</title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/loja.css">
+        <script src="js/jquery.js"></script>
     </head>
 
     <body>
@@ -26,6 +27,9 @@ if(usuarioEstaLogado()) { ?>
                             </li>
                             <li>
                                 <a href="produto-lista.php">Lista Produto</a>
+                            </li>
+                            <li>
+                                <a href="contato.php">Contato</a>
                             </li>
                             <li>
                                 <a href="logout.php">Lougout</a>
